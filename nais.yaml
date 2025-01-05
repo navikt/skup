@@ -1,0 +1,14 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+
+metadata:
+  labels:
+    team: team-researchops
+  name: skup
+  namespace: team-researchops
+
+spec:
+  ingresses:
+    - https://skup.ansatt.nav.no
+  image: {{image}}
+  port: 3000
