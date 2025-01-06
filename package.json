@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "docker" : "docker stop skup && docker rm skup && docker build . -t skup && docker run -p 3000:3000 --name skup skup",
     "start": "next start",
     "lint": "next lint"
   },
