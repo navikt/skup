@@ -12,3 +12,8 @@ spec:
     - https://skup.ansatt.nav.no
   image: {{image}}
   port: 3000
+  accessPolicy:
+    inbound:
+      rules:
+        - application: skup-backend
+          namespace: team-researchops
