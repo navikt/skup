@@ -1,6 +1,5 @@
 "use client";
 
-import "../tailwind.css"
 import { BodyShort, Heading } from "@navikt/ds-react";
 
 const Footer = () => {
@@ -38,7 +37,7 @@ function Snarveier() {
             <Heading level="2" size="xsmall">
                 Snarveier
             </Heading>
-            <BodyShort as="ul" className="mt-3 grid gap-3">
+            <BodyShort as="ul" className="pt-3 grid gap-3">
                 <FooterLink href="https://forms.office.com/e/LyKPTdaRw5">
                     Innspill til Skup
                 </FooterLink>
@@ -56,7 +55,7 @@ function Kontakt() {
             <Heading level="2" size="xsmall">
                 Finn oss
             </Heading>
-            <BodyShort as="ul" className="mt-3 grid gap-3">
+            <BodyShort as="ul" className="pt-3 grid gap-3">
                 <FooterLink href="https://teamkatalog.nav.no/team/6332f6a3-2ee1-4698-8a0d-164aafb0594b">
                     Teamkatalogen
                 </FooterLink>
@@ -74,7 +73,7 @@ function SideLenker() {
             <Heading level="2" size="xsmall">
                 Erklæringer
             </Heading>
-            <BodyShort as="ul" className="mt-3 grid gap-3">
+            <BodyShort as="ul" className="pt-3 grid gap-3">
                 <FooterLink href="/legal/privacy">
                     Personvern
                 </FooterLink>
