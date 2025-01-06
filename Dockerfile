@@ -2,11 +2,14 @@ FROM node:lts-alpine AS builder
 
 WORKDIR /app
 
+ENV NEXT_TELEMETRY_DISABLED=1
+
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-COPY next.config.ts tsconfig.json ./
-COPY . .
+COPY next.config.ts tsconfig.json tailwind.config.js postcss.config.js ./
+COPY app ./app
+COPY public ./public
 
 RUN yarn build
 

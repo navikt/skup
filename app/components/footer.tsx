@@ -1,5 +1,6 @@
 "use client";
 
+import "../tailwind.css"
 import { BodyShort, Heading } from "@navikt/ds-react";
 
 const Footer = () => {
