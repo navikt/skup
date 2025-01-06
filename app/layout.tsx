@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+
 import "@navikt/ds-css";
+import "./tailwind.css"
 
 import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";

@@ -3,13 +3,12 @@ FROM node:lts-alpine AS builder
 WORKDIR /app
 
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 COPY next.config.ts tsconfig.json ./
-COPY app app
-COPY public public
+COPY . .
 
-RUN npm run build
+RUN yarn build
 
 FROM gcr.io/distroless/nodejs22-debian12 AS runtime
 

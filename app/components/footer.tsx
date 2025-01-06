@@ -1,6 +1,5 @@
 "use client";
 
-import "../styles/tailwind.css";
 import { BodyShort, Heading } from "@navikt/ds-react";
 
 const Footer = () => {
@@ -13,9 +12,9 @@ const Footer = () => {
         >
             <div className="relative z-10 mx-auto grid w-full max-w-screen-2xl gap-12 px-4 pb-16 pt-12 md:grid-cols-2 md:px-6 lg:grid-cols-2 xl:grid-cols-4 xl:gap-6">
                 <LogoBlock />
-{/*                <Snarveier />
+                <Snarveier />
                 <SideLenker />
-                <Kontakt />*/}
+                <Kontakt />
             </div>
         </footer>
         </div>
