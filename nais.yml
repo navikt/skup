@@ -17,6 +17,3 @@ spec:
       rules:
         - application: skup-backend
           namespace: team-researchops
-  outbound:
-    external:
-      - host: skupapi.intern.nav.no
