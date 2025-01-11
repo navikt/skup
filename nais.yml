@@ -14,6 +14,9 @@ spec:
   port: 3000
   accessPolicy:
     outbound:
-      external:
+      rules:
         - application: skup-backend
           namespace: team-researchops
+  outbound:
+    external:
+      - host: skupapi.intern.nav.no
