@@ -12,7 +12,7 @@ export default function GetApps({ apps, error }: { apps: App[], error: string | 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (apps.length > 0 || error) {
+        if (apps.length === 0 || error) {
             setLoading(false);
         }
     }, [apps, error]);
