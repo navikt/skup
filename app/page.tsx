@@ -17,7 +17,7 @@ export default function MainSection() {
 
     const fetchApps = async () => {
         try {
-            const response = await fetch('/api/read');
+            const response = await fetch('https://skupapi.ansatt.nav.no/api/apps');
             if (!response.ok) {
                 const errorDetails = await response.text();
                 console.error('Network response was not ok:', response.status, errorDetails);
