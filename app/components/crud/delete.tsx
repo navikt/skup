@@ -96,7 +96,7 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
                                 }
                             }}
                         />
-                    <Button type="submit" variant="primary">Slett</Button>
+                    <Button className="max-w-[200px]" type="submit" variant="primary">Slett</Button>
             </form>
             {success && (
                 <AlertWithCloseButton variant="success">
