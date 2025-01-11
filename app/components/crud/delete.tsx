@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { UNSAFE_Combobox, Button, Alert, AlertProps } from "@navikt/ds-react";
 
 interface App {
@@ -17,7 +17,12 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
 
     const fetchApps = async () => {
         try {
-            const response = await fetch('https://skupapi.intern.nav.no/api/apps');
+            const response = await fetch(
+                window.location.hostname === 'localhost' ? 'https://skupapi.intern.nav.no/api/apps' : 'https://skupapi.ansatt.nav.no/api/apps',
+                {
+                    credentials: window.location.hostname === 'localhost' ? 'omit' : 'include',
+                }
+            );
             if (!response.ok) {
                 throw new Error('Kunne ikke hente appene. Vennligst sjekk nettverkstilkoblingen din og prøv igjen.');
             }
@@ -40,9 +45,13 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
         }
 
         try {
-            const response = await fetch(`https://skupapi.intern.nav.no/api/apps/${selectedApp.app_id}`, {
-                method: 'DELETE',
-            });
+            const response = await fetch(
+                window.location.hostname === 'localhost' ? `https://skupapi.intern.nav.no/api/apps/${selectedApp.app_id}` : `https://skupapi.ansatt.nav.no/api/apps/${selectedApp.app_id}`,
+                {
+                    method: 'DELETE',
+                    credentials: window.location.hostname === 'localhost' ? 'omit' : 'include',
+                }
+            );
             if (!response.ok) {
                 throw new Error('Klarte ikke å slette appen. Sjekk nettverkstilkoblingen din og prøv igjen.');
             }

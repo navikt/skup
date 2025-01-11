@@ -17,9 +17,12 @@ export default function MainSection() {
 
     const fetchApps = async () => {
         try {
-            const response = await fetch('https://skupapi.ansatt.nav.no/api/apps', {
-                credentials: window.location.hostname === 'localhost' ? 'omit' : 'include',
-            });
+            const response = await fetch(
+                window.location.hostname === 'localhost' ? 'https://skupapi.intern.nav.no/api/apps' : 'https://skupapi.ansatt.nav.no/api/apps',
+                {
+                    credentials: window.location.hostname === 'localhost' ? 'omit' : 'include',
+                }
+            );
             if (!response.ok) {
                 const errorDetails = await response.text();
                 console.error('Network response was not ok:', response.status, errorDetails);

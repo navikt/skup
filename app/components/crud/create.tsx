@@ -18,17 +18,21 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            const response = await fetch('https://skupapi.intern.nav.no/api/apps', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    app_name: appName,
-                    is_active: isActive,
-                    created_at: new Date().toISOString(),
-                }),
-            });
+            const response = await fetch(
+                window.location.hostname === 'localhost' ? 'https://skupapi.intern.nav.no/api/apps' : 'https://skupapi.ansatt.nav.no/api/apps',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: window.location.hostname === 'localhost' ? 'omit' : 'include',
+                    body: JSON.stringify({
+                        app_name: appName,
+                        is_active: isActive,
+                        created_at: new Date().toISOString(),
+                    }),
+                }
+            );
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
