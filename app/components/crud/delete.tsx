@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { UNSAFE_Combobox, Button, Alert, AlertProps } from "@navikt/ds-react";
 
 interface App {
@@ -37,10 +37,6 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
         }
     };
 
-    useEffect(() => {
-        fetchApps();
-    }, []);
-
     const handleDelete = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!selectedApp) {
@@ -73,6 +69,10 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
         }
     };
 
+    const handleClick = () => {
+        fetchApps();
+    };
+
     const options = apps.map(app => ({
         label: app.app_name,
         value: app.app_name, // Use app_name as the value for display
@@ -82,20 +82,22 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
     return (
         <div style={{ maxWidth: "600px", marginTop: "60px" }}>
             <h1 className="text-4xl font-bold mb-8">Slett app</h1>
-            <form onSubmit={handleDelete} className="grid grid-cols-1 gap-6 mb-5">
-                <UNSAFE_Combobox
-                    label="App"
-                    options={options}
-                    selectedOptions={selectedApp ? [selectedApp.app_name] : []}
-                    onToggleSelected={(option, isSelected) => {
-                        if (isSelected) {
-                            const app = options.find(opt => opt.value === option)?.app;
-                            setSelectedApp(app || null);
-                        } else {
-                            setSelectedApp(null);
-                        }
-                    }}
-                />
+            <form onSubmit={handleDelete} className="grid grid-cols-1 gap-6 mb-5" onClick={handleClick}>
+                <div style={{position: 'relative', zIndex: 10}}>
+                    <UNSAFE_Combobox
+                        label="App"
+                        options={options}
+                        selectedOptions={selectedApp ? [selectedApp.app_name] : []}
+                        onToggleSelected={(option, isSelected) => {
+                            if (isSelected) {
+                                const app = options.find(opt => opt.value === option)?.app;
+                                setSelectedApp(app || null);
+                            } else {
+                                setSelectedApp(null);
+                            }
+                        }}
+                    />
+                </div>
                 <Button type="submit" variant="primary">Slett</Button>
             </form>
             {success && (
@@ -127,4 +129,3 @@ const AlertWithCloseButton = ({
         </Alert>
     ) : null;
 };
-
