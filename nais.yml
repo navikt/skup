@@ -13,7 +13,7 @@ spec:
   image: {{image}}
   port: 3000
   accessPolicy:
-    inbound:
+    outbound:
       rules:
         - application: skup-backend
           namespace: team-researchops
