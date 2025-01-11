@@ -83,22 +83,20 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
         <div style={{ maxWidth: "600px", marginTop: "60px" }}>
             <h1 className="text-4xl font-bold mb-8">Slett app</h1>
             <form onSubmit={handleDelete} className="grid grid-cols-1 gap-6 mb-5" onClick={handleClick}>
-                <div style={{position: 'relative', zIndex: 10}}>
-                    <UNSAFE_Combobox
-                        label="App"
-                        options={options}
-                        selectedOptions={selectedApp ? [selectedApp.app_name] : []}
-                        onToggleSelected={(option, isSelected) => {
-                            if (isSelected) {
-                                const app = options.find(opt => opt.value === option)?.app;
-                                setSelectedApp(app || null);
-                            } else {
-                                setSelectedApp(null);
-                            }
-                        }}
-                    />
-                </div>
-                <Button type="submit" variant="primary">Slett</Button>
+                        <UNSAFE_Combobox
+                            label="App"
+                            options={options}
+                            selectedOptions={selectedApp ? [selectedApp.app_name] : []}
+                            onToggleSelected={(option, isSelected) => {
+                                if (isSelected) {
+                                    const app = options.find(opt => opt.value === option)?.app;
+                                    setSelectedApp(app || null);
+                                } else {
+                                    setSelectedApp(null);
+                                }
+                            }}
+                        />
+                    <Button type="submit" variant="primary">Slett</Button>
             </form>
             {success && (
                 <AlertWithCloseButton variant="success">
