@@ -14,6 +14,6 @@ spec:
   port: 3000
   accessPolicy:
     outbound:
-      rules:
+      external:
         - application: skup-backend
           namespace: team-researchops
