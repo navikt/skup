@@ -19,7 +19,9 @@ export default function MainSection() {
         try {
             const response = await fetch('/api/read');
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                const errorDetails = await response.text();
+                console.error('Network response was not ok:', response.status, errorDetails);
+                throw new Error(`Network response was not ok: ${response.status} - ${errorDetails}`);
             }
             const data: App[] = await response.json();
             setApps(data);
