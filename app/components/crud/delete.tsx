@@ -87,6 +87,7 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
                     label="App"
                     options={options}
                     selectedOptions={selectedApp ? [selectedApp.app_name] : []}
+                    onClick={(event) => event.stopPropagation()} // Stop the event from propagating to the button
                     onToggleSelected={(option, isSelected) => {
                         if (isSelected) {
                             const app = options.find(opt => opt.value === option)?.app;
