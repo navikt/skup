@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "docker" : "docker stop skup && docker rm skup && docker build . -t skup && docker run -p 3000:3000 --name skup skup",
+    "docker": "docker stop skup && docker rm skup && docker build . -t skup && docker run -p 3000:3000 --name skup skup",
     "start": "next start",
     "lint": "next lint"
   },
@@ -14,6 +14,7 @@
     "@navikt/ds-css": "^7.9.0",
     "@navikt/ds-react": "^7.9.0",
     "@navikt/ds-tailwind": "^7.9.0",
+    "@navikt/oasis": "^3.6.0",
     "next": "15.1.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
