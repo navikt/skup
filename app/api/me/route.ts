@@ -1,17 +1,20 @@
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: Request) {
     const accessToken = process.env.MICROSOFT_GRAPH_ACCESS_TOKEN;
 
     if (!accessToken) {
         return NextResponse.json({ error: 'Access token is required' }, { status: 400 });
     }
 
+    const cookies = request.headers.get('cookie');
+
     try {
         const response = await fetch('https://graph.microsoft.com/v1.0/me/', {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
+                'Cookie': cookies || '',
             },
         });
 

@@ -23,8 +23,13 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'OBO token request failed' }, { status: 500 });
     }
 
+    const cookies = request.headers.get('cookie');
+
     const response = await fetch('https://example.com/api', {
-        headers: { Authorization: `Bearer ${obo.token}` },
+        headers: {
+            Authorization: `Bearer ${obo.token}`,
+            Cookie: cookies || '',
+        },
     });
 
     if (!response.ok) {
