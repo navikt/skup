@@ -10,6 +10,7 @@ metadata:
 spec:
   ingresses:
     - https://skup.ansatt.nav.no
+    - https://skup.intern.nav.no
   image: {{image}}
   port: 3000
   accessPolicy:
