@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-    console.log('Starting GET request to fetch apps');
+    const apiUrl = process.env.NODE_ENV === 'production'
+        ? 'http://skup-backend/api/apps'
+        : 'https://skupapi.intern.nav.no/api/apps';
+
     try {
-        const response = await fetch('http://skup-backend/api/apps', {
+        const response = await fetch(apiUrl, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -17,7 +20,6 @@ export async function GET() {
         }
 
         const data = await response.json();
-        console.log('Successfully fetched apps:', data);
         return NextResponse.json(data);
     } catch (error) {
         if (error instanceof Error) {
