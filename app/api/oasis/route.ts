@@ -6,6 +6,7 @@ export async function GET(request: Request) {
     if (!token) {
         // Handle missing token
         console.error('Token is missing');
+        console.log('token: ', token);
         return NextResponse.json({ error: 'Token is missing' }, { status: 400 });
     }
 
@@ -20,12 +21,13 @@ export async function GET(request: Request) {
     if (!obo.ok) {
         // Handle OBO error
         console.error('OBO token request failed');
+        console.log('obo: ', obo);
         return NextResponse.json({ error: 'OBO token request failed' }, { status: 500 });
     }
 
     const cookies = request.headers.get('cookie');
 
-    const response = await fetch('https://example.com/api', {
+    const response = await fetch('https://graph.microsoft.com/v1.0/me/', {
         headers: {
             Authorization: `Bearer ${obo.token}`,
             Cookie: cookies || '',
