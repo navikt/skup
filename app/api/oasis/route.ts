@@ -17,12 +17,12 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Token validation failed' }, { status: 401 });
     }
 
-    const obo = await requestOboToken(token, 'an:example:audience');
+    const obo = await requestOboToken(token, 'api://prod-gcp.team-researchops.skup/.default');
     if (!obo.ok) {
         // Handle OBO error
         console.error('OBO token request failed');
         console.log('obo: ', obo);
-        return NextResponse.json({ error: 'OBO token request failed' }, { status: 500 });
+        return NextResponse.json({ error: 'OBO token request failed' }, { status: 200 });
     }
 
     const cookies = request.headers.get('cookie');
