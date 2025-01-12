@@ -7,6 +7,7 @@ import Delete from './components/crud/delete';
 interface App {
     app_id: string;
     app_name: string;
+    app_owner: string;
     is_active: boolean;
     created_at: string;
 }
