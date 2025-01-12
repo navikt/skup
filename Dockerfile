@@ -2,23 +2,20 @@ FROM node:lts-alpine AS builder
 
 WORKDIR /app
 
-# Ensure the secret is available and correctly mounted
-#RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
-#    sh -c 'yarn config set //npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)'
-#
-## Set the registry for @navikt scope
-#RUN yarn config set @navikt:registry https://npm.pkg.github.com
+RUN --mount=type=secret,id=NODE_AUTH_TOKEN sh -c \
+    'npm config set //npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)'
+RUN npm config set @navikt:registry=https://npm.pkg.github.com
+
+COPY package.json package-lock.json ./
+RUN npm ci
 
 ENV NEXT_TELEMETRY_DISABLED=1
-
-COPY package.json yarn.lock ./
-RUN yarn install
 
 COPY next.config.ts tsconfig.json tailwind.config.js postcss.config.js ./
 COPY app ./app
 COPY public ./public
 
-RUN yarn build
+RUN npm run build
 
 FROM gcr.io/distroless/nodejs22-debian12 AS runtime
 
