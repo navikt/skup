@@ -17,4 +17,3 @@ spec:
     outbound:
       rules:
         - application: skup-backend
-          namespace: team-researchops
