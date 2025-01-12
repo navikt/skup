@@ -12,7 +12,7 @@ export default function GetApps({ apps, error }: { apps: App[], error: string | 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (apps.length === 0 || error) {
+        if (apps.length > 0 || error) {
             setLoading(false);
         }
     }, [apps, error]);
@@ -20,7 +20,9 @@ export default function GetApps({ apps, error }: { apps: App[], error: string | 
     return (
         <>
             <h1 className="text-4xl font-bold mb-8">Apper (bare demo greier)</h1>
-            {loading ? null : (
+            {loading ? (
+                null
+            ) : (
                 <>
                     {error ? (
                         <div>Uff da: {error}</div>
@@ -35,7 +37,6 @@ export default function GetApps({ apps, error }: { apps: App[], error: string | 
                                             <div
                                                 className="bg-white shadow-lg rounded-lg p-6 w-full transform transition-transform hover:scale-105 hover:bg-gray-100 h-full flex flex-col">
                                                 <h2 className="text-2xl font-semibold mb-2">{app.app_name}</h2>
-                                                {/*<p className="text-gray-700">Aktiv: {app.is_active ? 'Ja' : 'Nei'}</p>*/}
                                                 <p className="text-gray-700">Opprettet: {new Date(app.created_at).toLocaleDateString()}</p>
                                             </div>
                                         </a>

@@ -2,14 +2,9 @@ FROM node:lts-alpine AS builder
 
 WORKDIR /app
 
-# Log the NODE_AUTH_TOKEN to check if it is available
-RUN --mount=type=secret,id=NODE_AUTH_TOKEN sh -c \
-    'echo "NODE_AUTH_TOKEN=$(cat /run/secrets/NODE_AUTH_TOKEN)"'
-
 RUN --mount=type=secret,id=NODE_AUTH_TOKEN sh -c \
     'yarn config set //npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)'
 RUN yarn config set @navikt:registry=https://npm.pkg.github.com
-
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
