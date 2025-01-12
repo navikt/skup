@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UNSAFE_Combobox, Button, Alert, AlertProps } from "@navikt/ds-react";
 
 interface App {
@@ -9,7 +9,7 @@ interface App {
     created_at: string;
 }
 
-export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }) {
+export default function DeleteApp({ onAppDeleted }: { onAppDeleted: () => void }) {
     const [apps, setApps] = useState<App[]>([]);
     const [selectedApp, setSelectedApp] = useState<App | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -17,12 +17,7 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
 
     const fetchApps = async () => {
         try {
-            const response = await fetch(
-                window.location.hostname === 'localhost' ? 'https://skupapi.intern.nav.no/api/apps' : 'https://skupapi.ansatt.nav.no/api/apps',
-                {
-                    credentials: window.location.hostname === 'localhost' ? 'omit' : 'include',
-                }
-            );
+            const response = await fetch('/api/read');
             if (!response.ok) {
                 throw new Error('Kunne ikke hente appene. Vennligst sjekk nettverkstilkoblingen din og prøv igjen.');
             }
@@ -37,6 +32,10 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
         }
     };
 
+    useEffect(() => {
+        fetchApps();
+    }, []);
+
     const handleDelete = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!selectedApp) {
@@ -45,20 +44,19 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
         }
 
         try {
-            const response = await fetch(
-                window.location.hostname === 'localhost' ? `https://skupapi.intern.nav.no/api/apps/${selectedApp.app_id}` : `https://skupapi.ansatt.nav.no/api/apps/${selectedApp.app_id}`,
-                {
-                    method: 'DELETE',
-                    credentials: window.location.hostname === 'localhost' ? 'omit' : 'include',
-                }
-            );
+            const response = await fetch(`/api/delete?app_id=${selectedApp.app_id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
             if (!response.ok) {
                 throw new Error('Klarte ikke å slette appen. Sjekk nettverkstilkoblingen din og prøv igjen.');
             }
             setSuccess(true);
             setError(null);
             setSelectedApp(null); // Clear the combobox
-            onAppCreated(); // Notify the parent component to update the list of apps
+            onAppDeleted(); // Notify the parent component to update the list of apps
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -82,21 +80,23 @@ export default function DeleteApp({ onAppCreated }: { onAppCreated: () => void }
     return (
         <div style={{ maxWidth: "600px", marginTop: "60px" }}>
             <h1 className="text-4xl font-bold mb-8">Slett app</h1>
-            <form onSubmit={handleDelete} className="grid grid-cols-1 gap-6 mb-5" onClick={handleClick}>
-                        <UNSAFE_Combobox
-                            label="App"
-                            options={options}
-                            selectedOptions={selectedApp ? [selectedApp.app_name] : []}
-                            onToggleSelected={(option, isSelected) => {
-                                if (isSelected) {
-                                    const app = options.find(opt => opt.value === option)?.app;
-                                    setSelectedApp(app || null);
-                                } else {
-                                    setSelectedApp(null);
-                                }
-                            }}
-                        />
-                    <Button className="max-w-[200px]" type="submit" variant="primary">Slett</Button>
+            <form onSubmit={handleDelete} className="grid grid-cols-1 gap-6 mb-5">
+                <div onClick={handleClick}>
+                <UNSAFE_Combobox
+                    label="App"
+                    options={options}
+                    selectedOptions={selectedApp ? [selectedApp.app_name] : []}
+                    onToggleSelected={(option, isSelected) => {
+                        if (isSelected) {
+                            const app = options.find(opt => opt.value === option)?.app;
+                            setSelectedApp(app || null);
+                        } else {
+                            setSelectedApp(null);
+                        }
+                    }}
+                />
+                </div>
+                <Button className="max-w-[200px]" type="submit" variant="primary">Slett</Button>
             </form>
             {success && (
                 <AlertWithCloseButton variant="success">
