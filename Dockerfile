@@ -3,11 +3,11 @@ FROM node:lts-alpine AS builder
 WORKDIR /app
 
 # Ensure the secret is available and correctly mounted
-RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
-    sh -c 'yarn config set //npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)'
-
-# Set the registry for @navikt scope
-RUN yarn config set @navikt:registry https://npm.pkg.github.com
+#RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
+#    sh -c 'yarn config set //npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)'
+#
+## Set the registry for @navikt scope
+#RUN yarn config set @navikt:registry https://npm.pkg.github.com
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
