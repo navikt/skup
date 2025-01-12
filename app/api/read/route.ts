@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     console.log('Starting GET request to fetch apps');
     try {
-        const response = await fetch('https://skupapi.intern.nav.no/api/apps', {
+        const response = await fetch('http://skup-backend/api/apps', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
