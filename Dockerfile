@@ -9,7 +9,7 @@ RUN yarn config set @navikt:registry=https://npm.pkg.github.com
 ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 COPY next.config.ts tsconfig.json tailwind.config.js postcss.config.js ./
 COPY app ./app
