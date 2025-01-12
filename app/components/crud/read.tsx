@@ -19,7 +19,7 @@ export default function GetApps({ apps, error }: { apps: App[], error: string | 
 
     return (
         <>
-            <h1 className="text-4xl font-bold mb-8">Apper</h1>
+            <h1 className="text-4xl font-bold mb-8">Apper (bare demo greier)</h1>
             {loading ? null : (
                 <>
                     {error ? (

@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import Read from './components/crud/read';
-/* import Create from './components/crud/create';
-import Delete from './components/crud/delete'; */
+import Read from '../components/crud/read';
+import Create from '../components/crud/create';
+import Delete from '../components/crud/delete';
 
 interface App {
     app_id: string;
@@ -17,7 +17,12 @@ export default function MainSection() {
 
     const fetchApps = async () => {
         try {
-            const response = await fetch('/api/read')
+            const response = await fetch(
+                window.location.hostname === 'localhost' ? 'https://skupapi.intern.nav.no/api/apps' : 'https://skupapi.ansatt.nav.no/api/apps',
+                {
+                    credentials: window.location.hostname === 'localhost' ? 'omit' : 'include',
+                }
+            );
             if (!response.ok) {
                 const errorDetails = await response.text();
                 console.error('Network response was not ok:', response.status, errorDetails);
@@ -41,6 +46,8 @@ export default function MainSection() {
     return (
         <div className="container mx-auto pt-6 pb-12">
             <Read apps={apps} error={error} />
+            <Create onAppCreated={fetchApps} />
+            <Delete onAppCreated={fetchApps} />
         </div>
     );
 }
