@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 
     const cookies = request.headers.get('cookie');
 
-    const response = await fetch('https://graph.microsoft.com/v1.0/me/', {
+    const response = await fetch('/oauth2/login', {
         headers: {
             Authorization: `Bearer ${obo.token}`,
             Cookie: cookies || '',
