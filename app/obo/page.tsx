@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Read from '../components/crud/read';
-import Create from '../components/crud/create';
+import Create from '../components/obocrud/create';
 import Delete from '../components/crud/delete';
 
 interface App {
