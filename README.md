@@ -14,3 +14,6 @@ Skup er utviklet med hjelp av KI.
 Spørsmål knyttet til koden eller arbeidet kan stilles
 som issues her på GitHub. Henvendelser kan sendes via Slack i
 kanalen [#researchops](https://nav-it.slack.com/archives/C02UGFS2J4B).
+
+# Backend
+https://github.com/navikt/skup-backend
