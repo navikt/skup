@@ -20,11 +20,10 @@ export async function GET(request: Request) {
 
         const parse = parseAzureUserToken(token);
         if (parse.ok) {
-            console.log(`Bruker: ${parse.preferred_username} (${parse.NAVident})`);
+            return NextResponse.json({ user: { preferred_username: parse.preferred_username, NAVident: parse.NAVident } });
+        } else {
+            return NextResponse.json({ error: 'User token parsing failed' }, { status: 401 });
         }
-
-        console.log('OBO Token:', obo.token);
-        return NextResponse.json({ oboToken: obo.token });
     } catch (error) {
         if (error instanceof Error) {
             console.error('Fetch failed:', error.message, error.stack);
