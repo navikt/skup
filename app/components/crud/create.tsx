@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TextField, Button, Alert, AlertProps } from "@navikt/ds-react";
 
 interface App {
@@ -17,7 +17,8 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     const [success, setSuccess] = useState<boolean>(false);
     const [appOwner, setAppOwner] = useState<string | null>("Testbruker");
 
-    useEffect(() => {
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
         const fetchUser = async () => {
             try {
                 const response = await fetch('/api/getobouser');
@@ -32,12 +33,7 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
                 }
             }
         };
-
         fetchUser();
-    }, []);
-
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
         try {
             const response = await fetch('/api/create', {
                 method: 'POST',
