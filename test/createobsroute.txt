@@ -17,7 +17,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Token validation failed' }, { status: 401 });
         }
 
-        const obo = await requestOboToken(token, 'api://prod-gcp.team-researchops.skup/.default');
+        const obo = await requestOboToken(token, 'api://prod-gcp.team-researchops.skup-backend/.default');
         if (!obo.ok) {
             return NextResponse.json({ error: 'OBO token request failed' }, { status: 401 });
         }
