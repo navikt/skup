@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getToken, validateToken, requestOboToken, parseAzureUserToken } from '@navikt/oasis';
+import { getToken, validateToken, requestOboToken } from '@navikt/oasis';
 
 export async function GET(request: Request) {
+    const apiUrl = process.env.NODE_ENV === 'production'
+        ? 'http://skup-backend/api/apps'
+        : 'https://skupapi.intern.nav.no/api/apps';
+
     try {
         const token = getToken(request);
         if (!token) {
@@ -18,12 +22,22 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'OBO token request failed' }, { status: 401 });
         }
 
-        const parse = parseAzureUserToken(token);
-        if (parse.ok) {
-            console.log(`Bruker: ${parse.preferred_username} (${parse.NAVident})`);
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${obo.token}`,
+            },
+        });
+
+        if (!response.ok) {
+            const errorDetails = await response.text();
+            console.error('Network response was not ok:', response.status, errorDetails);
+            throw new Error(`Network response was not ok: ${response.status} - ${errorDetails}`);
         }
 
-        return NextResponse.json({ message: 'User information printed successfully' });
+        const data = await response.json();
+        return NextResponse.json(data);
     } catch (error) {
         if (error instanceof Error) {
             console.error('Fetch failed:', error.message, error.stack);
