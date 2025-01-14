@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Alert, AlertProps } from "@navikt/ds-react";
 
 interface App {
@@ -15,25 +15,16 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     const [isActive,] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
-    const [appOwner, setAppOwner] = useState<string | null>("Testbruker");
+    const [appOwner, setAppOwner] = useState<string>("Testbruker");
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+            setAppOwner("");
+        }
+    }, []);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const fetchUser = async () => {
-            try {
-                const response = await fetch('/api/getobouser');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user information');
-                }
-                const data = await response.json();
-                setAppOwner(data.user.preferred_username);
-            } catch (err) {
-                if (process.env.NODE_ENV !== 'development') {
-                    console.error('Error fetching user information:', err);
-                }
-            }
-        };
-        fetchUser();
         try {
             const response = await fetch('/api/create', {
                 method: 'POST',
@@ -107,3 +98,4 @@ const AlertWithCloseButton = ({
         </Alert>
     ) : null;
 };
+
