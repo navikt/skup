@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { UNSAFE_Combobox, Button, Alert, AlertProps } from "@navikt/ds-react";
 
 interface App {
@@ -14,8 +14,10 @@ export default function DeleteApp({ onAppDeleted }: { onAppDeleted: () => void }
     const [selectedApp, setSelectedApp] = useState<App | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchApps = async () => {
+        setIsLoading(true);
         try {
             const response = await fetch('/api/read');
             if (!response.ok) {
@@ -29,12 +31,10 @@ export default function DeleteApp({ onAppDeleted }: { onAppDeleted: () => void }
             } else {
                 setError('En ukjent feil skjedde');
             }
+        } finally {
+            setIsLoading(false);
         }
     };
-
-    useEffect(() => {
-        fetchApps();
-    }, []);
 
     const handleDelete = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -95,6 +95,7 @@ export default function DeleteApp({ onAppDeleted }: { onAppDeleted: () => void }
                             setSelectedApp(null);
                         }
                     }}
+                    isLoading={isLoading}
                 />
                 </div>
                 <Button className="max-w-[200px]" type="submit" variant="primary">Slett</Button>
