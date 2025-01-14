@@ -21,4 +21,5 @@ spec:
       enabled: true
       allowAllUsers: true
     sidecar:
+      autoLogin: true
       enabled: true
