@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Alert, AlertProps } from "@navikt/ds-react";
 
 interface App {
@@ -7,6 +7,7 @@ interface App {
     app_name: string;
     is_active: boolean;
     created_at: string;
+    app_owner?: string;
 }
 
 export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }) {
@@ -14,6 +15,26 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     const [isActive,] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
+    const [appOwner, setAppOwner] = useState<string | null>("Testbruker");
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch('/api/getobouser');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user information');
+                }
+                const data = await response.json();
+                setAppOwner(data.user.preferred_username);
+            } catch (err) {
+                if (process.env.NODE_ENV !== 'development') {
+                    console.error('Error fetching user information:', err);
+                }
+            }
+        };
+
+        fetchUser();
+    }, []);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -27,6 +48,7 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
                     app_name: appName,
                     is_active: isActive,
                     created_at: new Date().toISOString(),
+                    app_owner: appOwner,
                 }),
             });
             if (!response.ok) {
