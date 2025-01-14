@@ -21,9 +21,9 @@ export async function DELETE(request: Request) {
         });
 
         if (!response.ok) {
-            const errorDetails = await response.text();
-            console.error('Network response was not ok:', response.status, errorDetails);
-            throw new Error(`Network response was not ok: ${response.status} - ${errorDetails}`);
+            const errorData = await response.json();
+            console.error('Network response was not ok:', response.status, errorData.detail || 'An unknown error occurred');
+            throw new Error(errorData.detail || 'An unknown error occurred');
         }
 
         return NextResponse.json({ message: 'App deleted successfully' });

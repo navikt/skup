@@ -51,7 +51,8 @@ export default function DeleteApp({ onAppDeleted }: { onAppDeleted: () => void }
                 },
             });
             if (!response.ok) {
-                throw new Error('Klarte ikke å slette appen. Sjekk nettverkstilkoblingen din og prøv igjen.');
+                const errorData = await response.json();
+                throw new Error(errorData.detail || 'Klarte ikke å slette appen. Sjekk nettverkstilkoblingen din og prøv igjen.');
             }
             setSuccess(true);
             setError(null);
