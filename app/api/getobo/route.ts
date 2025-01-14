@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getToken, validateToken, requestOboToken } from '@navikt/oasis';
+import { getToken, validateToken, requestOboToken, parseAzureUserToken } from '@navikt/oasis';
 
 export async function GET(request: Request) {
     try {
@@ -16,6 +16,11 @@ export async function GET(request: Request) {
         const obo = await requestOboToken(token, 'api://prod-gcp.team-researchops.skup/.default');
         if (!obo.ok) {
             return NextResponse.json({ error: 'OBO token request failed' }, { status: 401 });
+        }
+
+        const parse = parseAzureUserToken(token);
+        if (parse.ok) {
+            console.log(`Bruker: ${parse.preferred_username} (${parse.NAVident})`);
         }
 
         console.log('OBO Token:', obo.token);
