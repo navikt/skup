@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
         const parse = parseAzureUserToken(token);
         if (parse.ok) {
-            return NextResponse.json({ user: { preferred_username: parse.preferred_username, NAVident: parse.NAVident } });
+            return NextResponse.json({ user: parse });
         } else {
             return NextResponse.json({ error: 'User token parsing failed' }, { status: 401 });
         }
