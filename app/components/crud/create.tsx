@@ -15,12 +15,25 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     const [isActive,] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
-    const [appOwner, setAppOwner] = useState<string>("Testbruker");
+    const [appOwner, setAppOwner] = useState<string | null>("Testbruker");
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
-            setAppOwner("");
-        }
+        const fetchUser = async () => {
+            try {
+                const response = await fetch('/api/getobouser');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user information');
+                }
+                const data = await response.json();
+                setAppOwner(data.user.preferred_username);
+            } catch (err) {
+                if (process.env.NODE_ENV !== 'development') {
+                    console.error('Error fetching user information:', err);
+                }
+            }
+        };
+
+        fetchUser();
     }, []);
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -98,4 +111,3 @@ const AlertWithCloseButton = ({
         </Alert>
     ) : null;
 };
-
