@@ -22,8 +22,6 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'OBO token request failed' }, { status: 401 });
         }
 
-        console.log('Authorization Header:', `Bearer ${obo.token}`);
-
         const response = await fetch(apiUrl, {
             method: 'GET',
             headers: {
