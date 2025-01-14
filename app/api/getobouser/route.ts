@@ -23,7 +23,8 @@ export async function GET(request: Request) {
             console.log(`Bruker: ${parse.preferred_username} (${parse.NAVident})`);
         }
 
-        return NextResponse.json({ message: 'User information printed successfully' });
+        console.log('OBO Token:', obo.token);
+        return NextResponse.json({ oboToken: obo.token });
     } catch (error) {
         if (error instanceof Error) {
             console.error('Fetch failed:', error.message, error.stack);
