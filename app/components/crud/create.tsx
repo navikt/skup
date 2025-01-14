@@ -78,7 +78,6 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
                     label="Navn"
                     value={appName}
                     onChange={(e) => setAppName(e.target.value)}
-                    required
                 />
                 <Button type="submit" className="max-w-[200px]" variant="primary">Legg til</Button>
             </form>
