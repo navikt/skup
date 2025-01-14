@@ -20,7 +20,7 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch('/api/getobouser');
+                const response = await fetch('/api/me');
                 if (!response.ok) {
                     throw new Error('Failed to fetch user information');
                 }

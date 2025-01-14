@@ -1,31 +1,24 @@
 import { NextResponse } from 'next/server';
+import { getToken, validateToken, parseAzureUserToken } from '@navikt/oasis';
 
 export async function GET(request: Request) {
-    const accessToken = process.env.MICROSOFT_GRAPH_ACCESS_TOKEN;
-
-    if (!accessToken) {
-        return NextResponse.json({ error: 'Access token is required' }, { status: 400 });
-    }
-
-    const cookies = request.headers.get('cookie');
-
     try {
-        const response = await fetch('https://graph.microsoft.com/v1.0/me/', {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json',
-                'Cookie': cookies || '',
-            },
-        });
-
-        if (!response.ok) {
-            const errorDetails = await response.text();
-            console.error('Network response was not ok:', response.status, errorDetails);
-            throw new Error(`Network response was not ok: ${response.status} - ${errorDetails}`);
+        const token = getToken(request);
+        if (!token) {
+            return NextResponse.json({ error: 'Missing token' }, { status: 401 });
         }
 
-        const data = await response.json();
-        return NextResponse.json(data);
+        const validation = await validateToken(token);
+        if (!validation.ok) {
+            return NextResponse.json({ error: 'Token validation failed' }, { status: 401 });
+        }
+
+        const parse = parseAzureUserToken(token);
+        if (parse.ok) {
+            return NextResponse.json({ user: parse });
+        } else {
+            return NextResponse.json({ error: 'User token parsing failed' }, { status: 401 });
+        }
     } catch (error) {
         if (error instanceof Error) {
             console.error('Fetch failed:', error.message, error.stack);
