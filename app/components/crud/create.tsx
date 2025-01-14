@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TextField, Button, Alert, AlertProps } from "@navikt/ds-react";
 
 interface App {
@@ -15,30 +15,22 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     const [isActive,] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
-    const [appOwner, setAppOwner] = useState<string | null>("Testbruker");
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await fetch('/api/me');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user information');
-                }
-                const data = await response.json();
-                setAppOwner(data.user.preferred_username);
-            } catch (err) {
-                if (process.env.NODE_ENV !== 'development') {
-                    console.error('Error fetching user information:', err);
-                }
-            }
-        };
-
-        fetchUser();
-    }, []);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
+            let appOwner = "Testbruker";
+            
+            // Only try to fetch real user in production
+            if (process.env.NODE_ENV !== 'development') {
+                const userResponse = await fetch('/api/me');
+                if (!userResponse.ok) {
+                    throw new Error('Failed to fetch user information');
+                }
+                const userData = await userResponse.json();
+                appOwner = userData.user.preferred_username;
+            }
+
             const response = await fetch('/api/create', {
                 method: 'POST',
                 headers: {
