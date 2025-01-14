@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Read from '../components/crud/read';
 import Create from '../components/obocrud/create';
-import Delete from '../components/crud/delete';
+import Delete from '../components/obocrud/delete';
 
 interface App {
     app_id: string;
