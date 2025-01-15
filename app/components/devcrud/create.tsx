@@ -19,7 +19,7 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            let appOwner = "Testbruker";
+/*            let appOwner = "Testbruker";
             
             // Only try to fetch real user in production
             if (process.env.NODE_ENV !== 'development') {
@@ -29,7 +29,7 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
                 }
                 const userData = await userResponse.json();
                 appOwner = userData.user.preferred_username;
-            }
+            }*/
 
             const response = await fetch('/api/create', {
                 method: 'POST',
@@ -40,7 +40,7 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
                     app_name: appName,
                     is_active: isActive,
                     created_at: new Date().toISOString(),
-                    app_owner: appOwner,
+                    app_owner: "Testbruker",
                 }),
             });
             if (!response.ok) {
