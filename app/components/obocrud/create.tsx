@@ -7,7 +7,6 @@ interface App {
     app_name: string;
     is_active: boolean;
     created_at: string;
-    app_owner?: string;
 }
 
 export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }) {
@@ -19,18 +18,6 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            let appOwner = "Testbruker";
-            
-            // Only try to fetch real user in production
-            if (process.env.NODE_ENV !== 'development') {
-                const userResponse = await fetch('/api/me');
-                if (!userResponse.ok) {
-                    throw new Error('Failed to fetch user information');
-                }
-                const userData = await userResponse.json();
-                appOwner = userData.user.preferred_username;
-            }
-
             const response = await fetch('/api/obocreate', {
                 method: 'POST',
                 headers: {
@@ -40,7 +27,6 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
                     app_name: appName,
                     is_active: isActive,
                     created_at: new Date().toISOString(),
-                    app_owner: appOwner,
                 }),
             });
             if (!response.ok) {
