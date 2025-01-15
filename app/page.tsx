@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import Read from '@/app/components/devcrud/read';
+import Read from './components/obocrud/read';
 import Create from './components/obocrud/create';
 import Delete from './components/obocrud/delete';
 

@@ -9,7 +9,7 @@ export async function DELETE(request: Request) {
     }
 
     const apiUrl = process.env.NODE_ENV === 'production'
-        ? `http://skup-backend/api/apps/${appId}`
+        ? `http://skup-backend/api/dev/apps/${appId}`
         : `https://skupapi.intern.nav.no/api/apps/${appId}`;
 
     try {

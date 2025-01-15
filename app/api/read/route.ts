@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
     const apiUrl = process.env.NODE_ENV === 'production'
-        ? 'http://skup-backend/api/apps'
+        ? 'http://skup-backend/api/dev/apps'
         : 'https://skupapi.intern.nav.no/api/apps';
 
     try {
