@@ -40,7 +40,6 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
                     app_name: appName,
                     is_active: isActive,
                     created_at: new Date().toISOString(),
-                    app_owner: "Testbruker",
                 }),
             });
             if (!response.ok) {
