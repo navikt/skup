@@ -9,7 +9,7 @@ export async function DELETE(request: Request) {
     }
 
     const apiUrl = process.env.NODE_ENV === 'production'
-        ? `http://skup-backend/api/dev/apps/${appId}`
+        ? `http://skup-backend/api/apps/${appId}`
         : `https://skupapi.intern.nav.no/api/apps/${appId}`;
 
     try {
@@ -17,6 +17,7 @@ export async function DELETE(request: Request) {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer kinda-clever-token',
             },
         });
 

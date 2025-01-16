@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
     const apiUrl = process.env.NODE_ENV === 'production'
-        ? 'http://skup-backend/api/dev/apps'
+        ? 'http://skup-backend/api/apps'
         : 'https://skupapi.intern.nav.no/api/apps';
 
     try {
@@ -10,6 +10,7 @@ export async function GET() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer kinda-clever-token',
             },
         });
 
