@@ -1,25 +1,48 @@
 import { NextResponse } from 'next/server';
+import { getToken, validateToken, requestOboToken } from '@navikt/oasis';
 
 export async function POST(request: Request) {
     const apiUrl = process.env.NODE_ENV === 'production'
         ? 'http://skup-backend/api/apps'
-        : 'https://skupapi.intern.nav.no/api/apps';
+        : 'http://0.0.0.0:8086/api/apps';
 
     try {
+        let token: string | null;
+        if (process.env.NODE_ENV === 'production') {
+            token = getToken(request);
+            if (!token) {
+                return NextResponse.json({ error: 'Missing token' }, { status: 401 });
+            }
+
+            const validation = await validateToken(token);
+            if (!validation.ok) {
+                return NextResponse.json({ error: 'Token validation failed' }, { status: 401 });
+            }
+
+            const obo = await requestOboToken(token, 'api://prod-gcp.team-researchops.skup-backend/.default');
+            if (!obo.ok) {
+                return NextResponse.json({ error: 'OBO token request failed' }, { status: 401 });
+            }
+
+            token = obo.token;
+        } else {
+            token = 'placeholder-token';
+        }
+
         const appData = await request.json();
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer kinda-clever-token',
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(appData),
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Network response was not ok:', response.status, errorData.detail || errorData.message || 'An unknown error occurred');
-            throw new Error(errorData.detail || errorData.message || 'An unknown error occurred');
+            const errorDetails = await response.text();
+            console.error('Network response was not ok:', response.status, errorDetails);
+            throw new Error(`Network response was not ok: ${response.status} - ${errorDetails}`);
         }
 
         const data = await response.json();

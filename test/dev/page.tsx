@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import Read from '@/app/components/devcrud/read';
-import Create from '@/app/components/devcrud/create';
-import Delete from '@/app/components/devcrud/delete';
+import Read from '@/test/devcrud/read';
+import Create from '@/test/devcrud/create';
+import Delete from '@/test/devcrud/delete';
 
 interface App {
     app_id: string;

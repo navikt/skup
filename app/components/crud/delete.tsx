@@ -19,7 +19,7 @@ export default function DeleteApp({ onAppDeleted }: { onAppDeleted: () => void }
     const fetchApps = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('/api/oboread');
+            const response = await fetch('/api/read');
             if (!response.ok) {
                 throw new Error('Kunne ikke hente appene. Vennligst sjekk nettverkstilkoblingen din og prøv igjen.');
             }
@@ -44,7 +44,7 @@ export default function DeleteApp({ onAppDeleted }: { onAppDeleted: () => void }
         }
 
         try {
-            const response = await fetch(`/api/obodelete?app_id=${selectedApp.app_id}`, {
+            const response = await fetch(`/api/delete?app_id=${selectedApp.app_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

@@ -18,7 +18,7 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            const response = await fetch('/api/obocreate', {
+            const response = await fetch('/api/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

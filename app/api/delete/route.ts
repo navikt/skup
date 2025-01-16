@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getToken, validateToken, requestOboToken } from '@navikt/oasis';
 
 export async function DELETE(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -10,14 +11,36 @@ export async function DELETE(request: Request) {
 
     const apiUrl = process.env.NODE_ENV === 'production'
         ? `http://skup-backend/api/apps/${appId}`
-        : `https://skupapi.intern.nav.no/api/apps/${appId}`;
+        : `http://0.0.0.0:8086/api/apps/${appId}`;
 
     try {
+        let token: string | null;
+        if (process.env.NODE_ENV === 'production') {
+            token = getToken(request);
+            if (!token) {
+                return NextResponse.json({ error: 'Missing token' }, { status: 401 });
+            }
+
+            const validation = await validateToken(token);
+            if (!validation.ok) {
+                return NextResponse.json({ error: 'Token validation failed' }, { status: 401 });
+            }
+
+            const obo = await requestOboToken(token, 'api://prod-gcp.team-researchops.skup-backend/.default');
+            if (!obo.ok) {
+                return NextResponse.json({ error: 'OBO token request failed' }, { status: 401 });
+            }
+
+            token = obo.token;
+        } else {
+            token = 'placeholder-token';
+        }
+
         const response = await fetch(apiUrl, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer kinda-clever-token',
+                'Authorization': `Bearer ${token}`,
             },
         });
 

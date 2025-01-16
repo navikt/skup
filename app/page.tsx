@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import Read from './components/obocrud/read';
-import Create from './components/obocrud/create';
-import Delete from './components/obocrud/delete';
+import Read from '@/app/components/crud/read';
+import Create from '@/app/components/crud/create';
+import Delete from '@/app/components/crud/delete';
 
 interface App {
     app_id: string;
@@ -18,7 +18,7 @@ export default function MainSection() {
 
     const fetchApps = async () => {
         try {
-            const response = await fetch('/api/oboread')
+            const response = await fetch('/api/read')
             if (!response.ok) {
                 const errorDetails = await response.text();
                 console.error('Network response was not ok:', response.status, errorDetails);

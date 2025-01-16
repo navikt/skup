@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getToken, validateToken, requestOboToken } from '@navikt/oasis';
 
 export async function DELETE(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -14,26 +13,11 @@ export async function DELETE(request: Request) {
         : `https://skupapi.intern.nav.no/api/apps/${appId}`;
 
     try {
-        const token = getToken(request);
-        if (!token) {
-            return NextResponse.json({ error: 'Missing token' }, { status: 401 });
-        }
-
-        const validation = await validateToken(token);
-        if (!validation.ok) {
-            return NextResponse.json({ error: 'Token validation failed' }, { status: 401 });
-        }
-
-        const obo = await requestOboToken(token, 'api://prod-gcp.team-researchops.skup-backend/.default');
-        if (!obo.ok) {
-            return NextResponse.json({ error: 'OBO token request failed' }, { status: 401 });
-        }
-
         const response = await fetch(apiUrl, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${obo.token}`,
+                'Authorization': 'Bearer kinda-clever-token',
             },
         });
 
