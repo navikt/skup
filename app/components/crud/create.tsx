@@ -31,7 +31,7 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
             });
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || `Network response was not ok: ${response.status} - ${JSON.stringify(errorData)}`);
+                throw new Error(errorData.detail || `Network response was not ok: ${response.status}`);
             }
             const data: App = await response.json();
             console.log('App created:', data);
