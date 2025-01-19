@@ -67,7 +67,7 @@ export default function CreateApp({ onAppCreated }: { onAppCreated: () => void }
             )}
             {error && (
                 <AlertWithCloseButton variant="error">
-                    Uff, fikk ikke lagt til appen: {error}
+                    {error}
                 </AlertWithCloseButton>
             )}
         </div>

@@ -11,17 +11,17 @@ export async function POST(request: Request) {
         if (process.env.NODE_ENV === 'production') {
             token = getToken(request);
             if (!token) {
-                return NextResponse.json({ error: 'Missing token' }, { status: 401 });
+                return NextResponse.json({ detail: 'Mangler token' }, { status: 401 });
             }
 
             const validation = await validateToken(token);
             if (!validation.ok) {
-                return NextResponse.json({ error: 'Token validation failed' }, { status: 401 });
+                return NextResponse.json({ detail: 'Token validering feilet' }, { status: 401 });
             }
 
             const obo = await requestOboToken(token, 'api://prod-gcp.team-researchops.skup-backend/.default');
             if (!obo.ok) {
-                return NextResponse.json({ error: 'OBO token request failed' }, { status: 401 });
+                return NextResponse.json({ detail: 'OBO token forespørsel feilet' }, { status: 401 });
             }
 
             token = obo.token;
@@ -40,20 +40,20 @@ export async function POST(request: Request) {
         });
 
         if (!response.ok) {
-            const errorDetails = await response.text();
-            console.error('Network response was not ok:', response.status, errorDetails);
-            throw new Error(`Network response was not ok: ${response.status} - ${errorDetails}`);
+            const errorDetails = await response.json();
+            console.error('Nettverksresponsen var ikke ok:', response.status, errorDetails);
+            return NextResponse.json({ detail: errorDetails.detail || `Nettverksresponsen var ikke ok: ${response.status}` }, { status: response.status });
         }
 
         const data = await response.json();
         return NextResponse.json(data);
     } catch (error) {
         if (error instanceof Error) {
-            console.error('Fetch failed:', error.message, error.stack);
-            return NextResponse.json({ error: 'Fetch failed', message: error.message, stack: error.stack }, { status: 500 });
+            console.error('Henting feilet:', error.message, error.stack);
+            return NextResponse.json({ detail: 'Henting feilet' }, { status: 500 });
         } else {
-            console.error('An unknown error occurred');
-            return NextResponse.json({ error: 'An unknown error occurred' }, { status: 500 });
+            console.error('En ukjent feil oppstod');
+            return NextResponse.json({ detail: 'En ukjent feil oppstod' }, { status: 500 });
         }
     }
 }

@@ -107,7 +107,7 @@ export default function DeleteApp({ onAppDeleted }: { onAppDeleted: () => void }
             )}
             {error && (
                 <AlertWithCloseButton variant="error">
-                    Uff, fikk ikke slettet appen: {error}
+                    {error}
                 </AlertWithCloseButton>
             )}
         </div>
