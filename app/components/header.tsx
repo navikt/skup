@@ -20,7 +20,7 @@ export default function Header() {
         "flex text-white no-underline items-center text-text-subtle bg-transparent hover:underline hover:bg-transparent navds-button navds-button--medium";
     return (
         <div style={{background: "rgba(19,17,54)"}}>
-            <header className="flex py-1 z-10 items-center sm:w-5/6 max-w-[80rem] m-auto justify-between">
+            <header className="flex py-1 z-10 items-center w-5/6 max-w-[80rem] m-auto justify-between">
                 <div className="flex items-stretch">
                     <Link data-umami-event="Delta-logo besøkt" className={linkButton} href="/">
                         <span className="text-2xl whitespace-nowrap text-white">Skup</span>
