@@ -18,7 +18,7 @@ children: React.ReactNode;
         <html lang="no">
         <body>
             <Header/>
-            <Box className="w-5/6  max-w-[80rem] m-auto px-5 mb-12 mt-10">{children}</Box>
+            <Box className="w-5/6 max-w-[80rem] m-auto sm:px-5 mb-12 mt-10">{children}</Box>
             <Footer/>
         </body>
         </html>
