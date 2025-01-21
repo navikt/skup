@@ -16,13 +16,6 @@ spec:
     outbound:
       rules:
         - application: skup-backend
-  resources:
-    limits:
-      cpu: 200m
-      memory: 32Mi
-    requests:
-      cpu: 200m
-      memory: 32Mi
   azure:
     application:
       enabled: true
