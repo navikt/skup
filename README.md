@@ -1,8 +1,6 @@
 Skup
 ================
 
-Felgen inneholder en samling av NAV IT-snarveier.
-
 ---
 
 # Bruk a KI
