@@ -6,12 +6,15 @@ metadata:
     team: team-researchops
   name: skup
   namespace: team-researchops
-
 spec:
   ingresses:
     - https://skup.ansatt.nav.no
   image: {{image}}
   port: 3000
+  replicas:
+    min: 1
+    max: 2
+    cpuThresholdPercentage: 80
   accessPolicy:
     outbound:
       rules:
