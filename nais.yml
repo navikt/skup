@@ -23,10 +23,6 @@ spec:
     requests:
       cpu: 200m
       memory: 32Mi
-  replicas:
-    min: 1
-    max: 2
-    cpuThresholdPercentage: 80
   azure:
     application:
       enabled: true
